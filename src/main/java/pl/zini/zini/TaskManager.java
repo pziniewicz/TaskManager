@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class TaskManager {
 
+    static final String[] OPTIONS = {"add", "remove", "list"};
     static LinkedList<String> taskList = new LinkedList<>();
     static Scanner scanner = new Scanner(System.in);
 
@@ -14,10 +15,9 @@ public class TaskManager {
         loadFile();
         while (true) {
             System.out.println(ConsoleColors.YELLOW_BOLD_BRIGHT + "Please select an option:");
-            System.out.println(ConsoleColors.GREEN_BRIGHT + "add");
-            System.out.println(ConsoleColors.RED_BRIGHT + "remove");
-            System.out.println(ConsoleColors.BLUE_BRIGHT + "list");
-            System.out.println(ConsoleColors.RESET + "exit");
+            for (String option : OPTIONS) {
+                System.out.println(ConsoleColors.RESET + option);
+            }
             System.out.print("$ ");
             String selection = scanner.nextLine();
             if (selection.equals("exit")) {
