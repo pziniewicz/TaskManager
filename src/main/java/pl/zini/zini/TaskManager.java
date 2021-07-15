@@ -22,6 +22,7 @@ public class TaskManager {
             String selection = scanner.nextLine();
             if (selection.equals("exit")) {
                 writeFile(taskList);
+                System.out.println(ConsoleColors.RED_BOLD + "Bye bye");
                 break;
             }
             switch (selection) {
@@ -39,10 +40,7 @@ public class TaskManager {
                 default:
                     System.out.println("Please select a correct option.");
             }
-            System.out.flush();
         }
-
-
     }
 
     public static LinkedList<String> loadFile() {
@@ -90,7 +88,6 @@ public class TaskManager {
             System.out.println("Please select a correct option.");
         }
         scanner.nextLine();
-
     }
 
     public static void list() {
@@ -99,5 +96,4 @@ public class TaskManager {
             System.out.println((i+1)+ ". " + taskList.get(i));
         }
     }
-
 }
