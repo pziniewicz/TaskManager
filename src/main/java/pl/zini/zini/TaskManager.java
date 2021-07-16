@@ -82,6 +82,7 @@ public class TaskManager {
             }
         }
         System.out.println("Value was successfully removed: ");
+        scanner.nextLine();
     }
 
     public static void listPrint() {
