@@ -14,36 +14,30 @@ public class TaskManager {
 
         loadFile();
         while (true) {
-            System.out.println(ConsoleColors.YELLOW_BOLD_BRIGHT + "Please select an option:");
-            for (String option : OPTIONS) {
-                System.out.println(ConsoleColors.RESET + option);
-            }
-            System.out.print("$ ");
+            showMenu();
             String selection = scanner.nextLine();
-            if (selection.equals("exit")) {
+            if (!selection.equals("exit")) {
+                switch (selection) {
+                    case "add" -> addTask();
+                    case "remove" -> removeTask();
+                    case "list" -> listPrint();
+                }
+            } else {
                 writeFile(taskList);
                 System.out.println(ConsoleColors.RED_BOLD + "Bye bye");
                 break;
             }
-            switch (selection) {
-                case "add":
-                    add();
-                    break;
-                case "remove":
-                    list();
-                    remove();
-                    break;
-                case "list":
-                    list();
-                    scanner.nextLine();
-                    break;
-                default:
-                    System.out.println("Please select a correct option.");
-            }
         }
     }
 
-    public static LinkedList<String> loadFile() {
+    public static void showMenu() {
+        System.out.println(ConsoleColors.YELLOW_BOLD_BRIGHT + "Please select an option:");
+        for (String option : OPTIONS) {
+            System.out.println(ConsoleColors.RESET + option);
+        }
+    }
+
+    public static void loadFile() {
         try {
             Scanner fileScanner = new Scanner(new File("tasks.csv"));
             while (fileScanner.hasNextLine()) {
@@ -52,23 +46,19 @@ public class TaskManager {
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println(taskList);
-        return taskList;
     }
 
     public static void writeFile(LinkedList<String> taskList) {
-        try {
-            FileWriter fileWriter = new FileWriter("tasks.csv");
+        try (FileWriter fileWriter = new FileWriter("tasks.csv")) {
             for (String s : taskList) {
                 fileWriter.append(s).append("\n");
             }
-            fileWriter.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public static void add() {
+    public static void addTask() {
         System.out.println("Please add task description");
         String taskDescription = scanner.nextLine();
         System.out.println("Please add task due date");
@@ -78,22 +68,26 @@ public class TaskManager {
         taskList.add(taskDescription + ", " + taskDueDate + ", " + taskImportance);
     }
 
-    public static void remove() {
-        System.out.println("Please select number to remove");
-        try {
-            int positionToRemove = scanner.nextInt();
-            System.out.println("Value was succesfully removed: " + taskList.get(positionToRemove-1));
-            taskList.remove(positionToRemove-1);
-        } catch (Exception e) {
-            System.out.println("Please select a correct option.");
+    public static void removeTask() {
+        while (true) {
+            System.out.println("Please select number to remove");
+            try {
+                int positionToRemove = scanner.nextInt();
+                if (positionToRemove > 0) {
+                    taskList.remove(positionToRemove - 1);
+                    break;
+                }
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println(e.getMessage());
+            }
         }
-        scanner.nextLine();
+        System.out.println("Value was successfully removed: ");
     }
 
-    public static void list() {
+    public static void listPrint() {
         System.out.println("list");
         for (int i = 0; i < taskList.size(); i++) {
-            System.out.println((i+1)+ ". " + taskList.get(i));
+            System.out.println((i + 1) + ". " + taskList.get(i));
         }
     }
 }
