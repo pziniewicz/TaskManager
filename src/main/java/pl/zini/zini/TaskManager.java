@@ -11,7 +11,6 @@ public class TaskManager {
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-
         loadFile();
         while (true) {
             showMenu();
@@ -69,6 +68,7 @@ public class TaskManager {
     }
 
     public static void removeTask() {
+        listPrint();
         while (true) {
             System.out.println("Please select number to remove");
             try {
